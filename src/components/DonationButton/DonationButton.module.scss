@@ -1,0 +1,21 @@
+.donateContainer {
+  position: absolute;
+  bottom: 70px;
+  right: 50px;
+  z-index: 99;
+  button {
+    background-color: #ffb800;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    filter: drop-shadow(2px 1px 5px rgba(0, 0, 0, 0.2));
+    transition: all 0.2s;
+    border: 0;
+    box-shadow: -1px 3px 45px 0px rgb(0 0 0 / 75%);
+
+    &:hover {
+      transform: scale(1.2);
+    }
+  }
+}
