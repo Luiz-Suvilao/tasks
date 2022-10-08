@@ -5,7 +5,9 @@ import {
     getDocs,
     getFirestore,
     where,
-    query
+    query,
+    doc,
+    deleteDoc
 } from 'firebase/firestore'
 
 import { format } from 'date-fns';
@@ -48,4 +50,9 @@ export const fetchUserTasks = async (path: string, userId: string|number) => {
     });
 
     return taskList;
+}
+
+export const deleteUniqueTaskById = async (path: string, taskId: string) => {
+    const docRef = doc(db, path, taskId);
+    await deleteDoc(docRef);
 }

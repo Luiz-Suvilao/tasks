@@ -14,7 +14,7 @@ import {
 
 import { format } from 'date-fns';
 
-import { add, fetchUserTasks } from '../../services/firebaseConnection';
+import { add, fetchUserTasks, deleteUniqueTaskById } from '../../services/firebaseConnection';
 
 import styles from './styles.module.scss';
 
@@ -78,6 +78,11 @@ export default function Tasks({
             setTaskList([...taskListFromState, data]);
             setTaskName('');
         });
+    };
+
+    const handleDeleteTask = async (taskId:string) => {
+        await deleteUniqueTaskById('taskList', taskId)
+            .then(() => setTaskList(taskListFromState.filter(task => task.id !== taskId)));
     };
 
     const hasError = (taskName: string) => {
@@ -149,7 +154,9 @@ export default function Tasks({
                                     </button>
                                 </div>
 
-                                <button>
+                                <button
+                                    onClick={() => handleDeleteTask(task.id)}
+                                >
                                     <FiTrash
                                         size={20}
                                         color="#ff3636"
