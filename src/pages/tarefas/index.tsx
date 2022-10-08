@@ -104,7 +104,7 @@ export default function Tasks({
         }
 
         return false;
-    }
+    };
 
     return (
         <>
