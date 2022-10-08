@@ -2,6 +2,7 @@ import Head from 'next/head';
 import Image from 'next/image';
 
 import styles from '../styles/pages/index.module.scss';
+import { GetStaticProps } from "next";
 
 export default function Home() {
     return (
@@ -31,4 +32,11 @@ export default function Home() {
             </main>
         </>
     );
+}
+
+export const getStaticProps: GetStaticProps = async () => {
+    return {
+        props: {},
+        revalidate: 60 * 60
+    }
 }
