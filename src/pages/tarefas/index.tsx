@@ -18,7 +18,7 @@ import { add, fetchUserTasks, deleteUniqueTaskById } from '../../services/fireba
 
 import styles from './styles.module.scss';
 
-interface TaskList {
+interface Task {
     id: string;
     userName: string;
     created_at: string|Date;
@@ -37,7 +37,7 @@ interface Session {
     id?: string|number;
 }
 
-interface tasksProps {
+interface TasksProps {
     user: {
         name: string;
         id: string|number;
@@ -48,10 +48,10 @@ interface tasksProps {
 export default function Tasks({
     user: { id, name },
     taskList
-}: tasksProps) {
+}: TasksProps) {
     const [taskName, setTaskName] = useState('');
     const [inputError, setInputErro] = useState(false);
-    const [taskListFromState, setTaskList] = useState<TaskList[]>(JSON.parse(taskList));
+    const [taskListFromState, setTaskList] = useState<Task[]>(JSON.parse(taskList));
 
     const handleAddTask = async (event:FormEvent) => {
         event.preventDefault();
@@ -66,7 +66,7 @@ export default function Tasks({
             userId: id,
             userName: name
         }).then(task => {
-            const data: TaskList = {
+            const data: Task = {
                 id: task.id,
                 created_at: new Date(),
                 formatted_created_at: format(new Date(), 'dd MMMM yyyy'),
