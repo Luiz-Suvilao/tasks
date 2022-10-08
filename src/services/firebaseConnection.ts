@@ -1,4 +1,6 @@
-import firebase from 'firebase/app';
+import { initializeApp } from 'firebase/app';
+import { getFirestore } from 'firebase/firestore'
+import { collection, addDoc } from 'firebase/firestore';
 
 const firebaseConfig = {
     apiKey: "AIzaSyD0hv6Crdk1bgvrPSClGx496CL2D_BQP8w",
@@ -10,8 +12,14 @@ const firebaseConfig = {
     measurementId: "G-D9Y1DTWG5N"
 };
 
-if (!firebase.getApps().length) {
-    firebase.initializeApp(firebaseConfig);
-}
+const app = initializeApp(firebaseConfig);
 
-export default firebase;
+const db = getFirestore(app);
+
+export const add = async (path: string, data: Object) => {
+    try {
+        return  await addDoc(collection(db, path), data);
+    } catch (e) {
+        console.error("Error adding document: ", e);
+    }
+}
