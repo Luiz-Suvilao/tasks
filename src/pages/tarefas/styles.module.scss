@@ -9,6 +9,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-bottom: .25rem;
 
     input {
       width: 90%;
@@ -21,6 +22,10 @@
       color: #fff;
     }
 
+    .inputError {
+      border-bottom: 1px solid #cc0000;
+    }
+
     button {
       margin-left: 10px;
       width: 8%;
@@ -29,6 +34,11 @@
       background-color: #ffb800;
       border-radius: 6px;
     }
+  }
+
+  .errorMessage {
+    color: #cc0000;
+    padding: 3px 10px;
   }
 
   h1 {
