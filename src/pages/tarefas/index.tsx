@@ -1,4 +1,7 @@
 import Head from 'next/head';
+import { GetServerSideProps, GetServerSidePropsContext } from 'next';
+
+import { getSession } from 'next-auth/react';
 
 import {
     FiPlus,
@@ -85,3 +88,19 @@ export default function Tasks() {
         </>
     );
 };
+
+export const getServerSideProps: GetServerSideProps = async (ctx: GetServerSidePropsContext) => {
+    const session = await getSession(ctx);
+    if (!session?.id) {
+        return {
+            redirect: {
+                destination: '/',
+                permanent: false,
+            }
+        };
+    }
+
+    return {
+        props: {}
+    };
+}
