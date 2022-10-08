@@ -1,6 +1,6 @@
+import { FormEvent, useState } from 'react';
 import Head from 'next/head';
 import { GetServerSideProps, GetServerSidePropsContext } from 'next';
-
 import { getSession } from 'next-auth/react';
 
 import {
@@ -11,9 +11,39 @@ import {
     FiClock
 } from 'react-icons/fi';
 
+import { add } from '../../services/firebaseConnection';
+
 import styles from './styles.module.scss';
 
-export default function Tasks() {
+interface tasksProps {
+    user: {
+        name: string;
+        id: string|number;
+    }
+}
+
+export default function Tasks({
+    user: { id, name }
+}: tasksProps) {
+    const [taskName, setTaskName] = useState('');
+    const [inputError, setInputErro] = useState(false);
+
+    const handleAddTask = async (event:FormEvent) => {
+        event.preventDefault();
+
+        if (taskName === '') {
+            setInputErro(true);
+            return;
+        }
+
+        await add('taskList', {
+            created_at: new Date(),
+            task: taskName,
+            userId: id,
+            userName: name
+        });
+    };
+
     return (
         <>
             <Head>
@@ -21,10 +51,15 @@ export default function Tasks() {
             </Head>
 
             <main className={styles.container}>
-                <form>
+                <form onSubmit={handleAddTask}>
                     <input
+                        value={taskName}
+                        name="task"
+                        onChange={e => setTaskName(e.target.value)}
                         type="text"
                         placeholder="Digite sua tarefa..."
+                        onFocus={() => setInputErro(false)}
+                        className={inputError ? styles.inputError : ''}
                     />
 
                     <button
@@ -36,6 +71,8 @@ export default function Tasks() {
                         />
                     </button>
                 </form>
+
+                {inputError && (<span className={styles.errorMessage}>Por favor, verifique o campo acima e envie novamente.</span>)}
 
                 <h1>Você tem 1 tarefas!</h1>
 
@@ -100,7 +137,14 @@ export const getServerSideProps: GetServerSideProps = async (ctx: GetServerSideP
         };
     }
 
+    const user = {
+        name: session?.user.name,
+        id: session?.id,
+    }
+
     return {
-        props: {}
+        props: {
+            user
+        }
     };
 }
