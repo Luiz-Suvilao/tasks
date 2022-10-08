@@ -9,7 +9,8 @@ import {
     FiCalendar,
     FiEdit2,
     FiTrash,
-    FiClock
+    FiClock,
+    FiX
 } from 'react-icons/fi';
 
 import { format } from 'date-fns';
@@ -50,8 +51,9 @@ export default function Tasks({
     taskList
 }: TasksProps) {
     const [taskName, setTaskName] = useState('');
-    const [inputError, setInputErro] = useState(false);
     const [taskListFromState, setTaskList] = useState<Task[]>(JSON.parse(taskList));
+    const [inputError, setInputErro] = useState(false);
+    const [taskEdit, setTaskEdit] = useState<Task|null>(null);
 
     const handleAddTask = async (event:FormEvent) => {
         event.preventDefault();
@@ -85,6 +87,16 @@ export default function Tasks({
             .then(() => setTaskList(taskListFromState.filter(task => task.id !== taskId)));
     };
 
+    const handleEditTask = async (selectedTask:Task) => {
+        setTaskEdit(selectedTask);
+        setTaskName(selectedTask.task);
+    };
+
+    const handleCancelEdit = (): void => {
+        setTaskEdit(null);
+        setTaskName('');
+    };
+
     const hasError = (taskName: string) => {
         if (taskName === '') {
             setInputErro(true);
@@ -101,6 +113,17 @@ export default function Tasks({
             </Head>
 
             <main className={styles.container}>
+                {taskEdit && (
+                    <p className={styles.warningEditing}>
+                        <button
+                            onClick={handleCancelEdit}
+                        >
+                            <FiX size={30} color="#cc0000" />
+                        </button>
+                       Editando a tarefa: <span>{taskEdit.task}</span>
+                    </p>
+                )}
+
                 <form onSubmit={handleAddTask}>
                     <input
                         value={taskName}
@@ -144,7 +167,9 @@ export default function Tasks({
                                         <time>{task.formatted_created_at}</time>
                                     </div>
 
-                                    <button>
+                                    <button
+                                        onClick={() => handleEditTask(task)}
+                                    >
                                         <FiEdit2
                                             size={20}
                                             color="fff"
