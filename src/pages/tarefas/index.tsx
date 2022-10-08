@@ -35,9 +35,7 @@ export default function Tasks({
     const handleAddTask = async (event:FormEvent) => {
         event.preventDefault();
 
-        validateTaskName(taskName);
-
-        if (inputError) {
+        if (hasError(taskName)) {
             return;
         }
 
@@ -61,10 +59,13 @@ export default function Tasks({
         });
     };
 
-    const validateTaskName = (taskName: string) => {
+    const hasError = (taskName: string) => {
         if (taskName === '') {
             setInputErro(true);
+            return true;
         }
+
+        return false;
     }
 
     return (
