@@ -30,7 +30,6 @@ export const authOptions = {
 
         async signIn({ user, account, profile, email, credentials }) {
             try {
-                // console.log(user); id, name, email, img
                 return true;
             } catch (err) {
                 return false;

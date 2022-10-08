@@ -1,6 +1,14 @@
 import { initializeApp } from 'firebase/app';
-import { getFirestore } from 'firebase/firestore'
-import { collection, addDoc } from 'firebase/firestore';
+import {
+    addDoc,
+    collection,
+    getDocs,
+    getFirestore,
+    where,
+    query
+} from 'firebase/firestore'
+
+import { format } from 'date-fns';
 
 const firebaseConfig = {
     apiKey: "AIzaSyD0hv6Crdk1bgvrPSClGx496CL2D_BQP8w",
@@ -22,4 +30,22 @@ export const add = async (path: string, data: Object) => {
     } catch (e) {
         console.error("Error adding document: ", e);
     }
+}
+
+export const fetchUserTasks = async (path: string, userId: string|number) => {
+    const q = query(collection(db, path), where('userId', "==", userId));
+    const querySnapshot = await getDocs(q);
+    const taskList = [];
+
+    querySnapshot.forEach((doc) => {
+        const objectFormatted = {
+            ...doc.data(),
+            id: doc.id,
+            formatted_created_at: format(doc.data().created_at.toDate(), 'dd MMMM yyyy'),
+        };
+
+        taskList.push(objectFormatted);
+    });
+
+    return taskList;
 }

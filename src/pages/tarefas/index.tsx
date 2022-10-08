@@ -14,23 +14,44 @@ import {
 
 import { format } from 'date-fns';
 
-import { add } from '../../services/firebaseConnection';
+import { add, fetchUserTasks } from '../../services/firebaseConnection';
 
 import styles from './styles.module.scss';
+
+interface TaskList {
+    id: string;
+    userName: string;
+    created_at: string|Date;
+    task: string;
+    userId: string|number;
+    formatted_created_at?: string;
+}
+
+interface Session {
+    user?: {
+        name?: string;
+        email?: string;
+        image?: string;
+    },
+    expires?: string;
+    id?: string|number;
+}
 
 interface tasksProps {
     user: {
         name: string;
         id: string|number;
-    }
+    },
+    taskList: string;
 }
 
 export default function Tasks({
-    user: { id, name }
+    user: { id, name },
+    taskList
 }: tasksProps) {
     const [taskName, setTaskName] = useState('');
     const [inputError, setInputErro] = useState(false);
-    const [taskList, setTaskList] = useState([]);
+    const [taskListFromState, setTaskList] = useState<TaskList[]>(JSON.parse(taskList));
 
     const handleAddTask = async (event:FormEvent) => {
         event.preventDefault();
@@ -45,7 +66,7 @@ export default function Tasks({
             userId: id,
             userName: name
         }).then(task => {
-            const data = {
+            const data: TaskList = {
                 id: task.id,
                 created_at: new Date(),
                 formatted_created_at: format(new Date(), 'dd MMMM yyyy'),
@@ -54,7 +75,7 @@ export default function Tasks({
                 userName: name
             }
 
-            setTaskList([...taskList, data]);
+            setTaskList([...taskListFromState, data]);
             setTaskName('');
         });
     };
@@ -98,10 +119,10 @@ export default function Tasks({
 
                 {inputError && (<span className={styles.errorMessage}>Por favor, verifique o campo acima e envie novamente.</span>)}
 
-                <h1>Você tem {taskList.length} tarefa(s)!</h1>
+                <h1>Você tem {taskListFromState.length} tarefa(s) 😊</h1>
 
                 <section>
-                    {taskList.map(task => (
+                    {taskListFromState.map(task => (
                         <article key={task.id} className={styles.taskList}>
                             <Link href={`/tarefas/${task.id}`}>
                                 <p>{task.task}</p>
@@ -155,7 +176,8 @@ export default function Tasks({
 };
 
 export const getServerSideProps: GetServerSideProps = async (ctx: GetServerSidePropsContext) => {
-    const session = await getSession(ctx);
+    const session: Session = await getSession(ctx);
+
     if (!session?.id) {
         return {
             redirect: {
@@ -165,6 +187,8 @@ export const getServerSideProps: GetServerSideProps = async (ctx: GetServerSideP
         };
     }
 
+    const taskList = JSON.stringify(await fetchUserTasks('taskList', session?.id));
+
     const user = {
         name: session?.user.name,
         id: session?.id,
@@ -172,7 +196,8 @@ export const getServerSideProps: GetServerSideProps = async (ctx: GetServerSideP
 
     return {
         props: {
-            user
+            user,
+            taskList
         }
     };
 }
