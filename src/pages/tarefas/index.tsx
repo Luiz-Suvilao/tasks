@@ -1,5 +1,6 @@
 import { FormEvent, useState } from 'react';
 import Head from 'next/head';
+import Link from 'next/link';
 import { GetServerSideProps, GetServerSidePropsContext } from 'next';
 import { getSession } from 'next-auth/react';
 
@@ -10,6 +11,8 @@ import {
     FiTrash,
     FiClock
 } from 'react-icons/fi';
+
+import { format } from 'date-fns';
 
 import { add } from '../../services/firebaseConnection';
 
@@ -27,12 +30,14 @@ export default function Tasks({
 }: tasksProps) {
     const [taskName, setTaskName] = useState('');
     const [inputError, setInputErro] = useState(false);
+    const [taskList, setTaskList] = useState([]);
 
     const handleAddTask = async (event:FormEvent) => {
         event.preventDefault();
 
-        if (taskName === '') {
-            setInputErro(true);
+        validateTaskName(taskName);
+
+        if (inputError) {
             return;
         }
 
@@ -41,8 +46,26 @@ export default function Tasks({
             task: taskName,
             userId: id,
             userName: name
+        }).then(task => {
+            const data = {
+                id: task.id,
+                created_at: new Date(),
+                formatted_created_at: format(new Date(), 'dd MMMM yyyy'),
+                task: taskName,
+                userId: id,
+                userName: name
+            }
+
+            setTaskList([...taskList, data]);
+            setTaskName('');
         });
     };
+
+    const validateTaskName = (taskName: string) => {
+        if (taskName === '') {
+            setInputErro(true);
+        }
+    }
 
     return (
         <>
@@ -74,43 +97,47 @@ export default function Tasks({
 
                 {inputError && (<span className={styles.errorMessage}>Por favor, verifique o campo acima e envie novamente.</span>)}
 
-                <h1>Você tem 1 tarefas!</h1>
+                <h1>Você tem {taskList.length} tarefa(s)!</h1>
 
                 <section>
-                    <article className={styles.taskList}>
-                        <p>Criar projeto</p>
+                    {taskList.map(task => (
+                        <article key={task.id} className={styles.taskList}>
+                            <Link href={`/tarefas/${task.id}`}>
+                                <p>{task.task}</p>
+                            </Link>
 
-                        <div className={styles.actions}>
-                            <div>
+                            <div className={styles.actions}>
                                 <div>
-                                    <FiCalendar
-                                        size={20}
-                                        color="#ffb800"
-                                    />
+                                    <div>
+                                        <FiCalendar
+                                            size={20}
+                                            color="#ffb800"
+                                        />
 
-                                    <time>17 julho de 2022</time>
+                                        <time>{task.formatted_created_at}</time>
+                                    </div>
+
+                                    <button>
+                                        <FiEdit2
+                                            size={20}
+                                            color="fff"
+                                        />
+
+                                        <span>Editar</span>
+                                    </button>
                                 </div>
 
                                 <button>
-                                    <FiEdit2
+                                    <FiTrash
                                         size={20}
-                                        color="fff"
+                                        color="#ff3636"
                                     />
 
-                                    <span>Editar</span>
+                                    <span>Excluir</span>
                                 </button>
                             </div>
-
-                            <button>
-                                <FiTrash
-                                    size={20}
-                                    color="#ff3636"
-                                />
-
-                                <span>Excluir</span>
-                            </button>
-                        </div>
-                    </article>
+                        </article>
+                    ))}
                 </section>
             </main>
 
