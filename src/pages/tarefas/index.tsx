@@ -15,7 +15,12 @@ import {
 
 import { format } from 'date-fns';
 
-import { add, fetchUserTasks, deleteUniqueTaskById } from '../../services/firebaseConnection';
+import {
+    add,
+    fetchUserTasks,
+    deleteUniqueTaskById,
+    updateTaskById
+} from '../../services/firebaseConnection';
 
 import styles from './styles.module.scss';
 
@@ -59,6 +64,22 @@ export default function Tasks({
         event.preventDefault();
 
         if (hasError(taskName)) {
+            return;
+        }
+
+        if (taskEdit) {
+            await updateTaskById('taskList', taskEdit.id, {
+                task: taskName
+            }).then(() => {
+                const updatedTaskList = taskListFromState;
+                const taskIndex = taskListFromState.findIndex(task => task.id === taskEdit.id);
+                updatedTaskList[taskIndex].task = taskName;
+
+                setTaskList(updatedTaskList);
+                setTaskEdit(null);
+                setTaskName('');
+            });
+
             return;
         }
 

@@ -7,7 +7,8 @@ import {
     where,
     query,
     doc,
-    deleteDoc
+    deleteDoc,
+    updateDoc
 } from 'firebase/firestore'
 
 import { format } from 'date-fns';
@@ -32,7 +33,7 @@ export const add = async (path: string, data: Object) => {
     } catch (e) {
         console.error("Error adding document: ", e);
     }
-}
+};
 
 export const fetchUserTasks = async (path: string, userId: string|number) => {
     const q = query(collection(db, path), where('userId', "==", userId));
@@ -50,9 +51,15 @@ export const fetchUserTasks = async (path: string, userId: string|number) => {
     });
 
     return taskList;
-}
+};
 
 export const deleteUniqueTaskById = async (path: string, taskId: string) => {
     const docRef = doc(db, path, taskId);
     await deleteDoc(docRef);
-}
+};
+
+export const updateTaskById = async (path: string, taskId: string, data: object) => {
+    const docRef = doc(db, path, taskId);
+
+    await updateDoc(docRef, data);
+};
