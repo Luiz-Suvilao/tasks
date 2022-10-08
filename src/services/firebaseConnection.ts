@@ -14,13 +14,13 @@ import {
 import { format } from 'date-fns';
 
 const firebaseConfig = {
-    apiKey: "AIzaSyD0hv6Crdk1bgvrPSClGx496CL2D_BQP8w",
+    apiKey: process.env.API_KEY,
     authDomain: "tarefas-web.firebaseapp.com",
     projectId: "tarefas-web",
     storageBucket: "tarefas-web.appspot.com",
-    messagingSenderId: "745427196947",
-    appId: "1:745427196947:web:5551f87bf84d1a6af573e6",
-    measurementId: "G-D9Y1DTWG5N"
+    messagingSenderId: process.env.MESSAGING_SENDER_ID,
+    appId: process.env.APP_ID,
+    measurementId:  process.env.MEASUREMENT_ID,
 };
 
 const app = initializeApp(firebaseConfig);
