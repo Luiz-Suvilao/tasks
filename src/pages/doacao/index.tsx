@@ -7,7 +7,7 @@ import { PayPalButtons } from '@paypal/react-paypal-js';
 
 import { addWithCustomDocument } from '../../services/firebaseConnection';
 
-import { Session } from '../tarefas/interfaces/ISession';
+import Session from '../tarefas/interfaces/ISession';
 
 import rocketImage from '../../../public/images/rocket.svg';
 

@@ -1,4 +1,4 @@
-export interface Session {
+export default interface Session {
     user?: {
         name?: string;
         email?: string;

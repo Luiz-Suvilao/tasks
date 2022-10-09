@@ -23,8 +23,8 @@ import {
     updateTaskById
 } from '../../services/firebaseConnection';
 
-import { Session } from './interfaces/ISession';
-import { Task } from './interfaces/ITask';
+import Session from './interfaces/ISession';
+import Task from './interfaces/ITask';
 
 import styles from './styles/styles.module.scss';
 

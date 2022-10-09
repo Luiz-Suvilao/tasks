@@ -1,4 +1,4 @@
-export interface Task {
+export default interface Task {
     id: string;
     userName: string;
     created_at: string|Date;

@@ -7,8 +7,8 @@ import { getById } from '../../services/firebaseConnection';
 
 import { FiCalendar } from 'react-icons/fi';
 
-import { Session } from './interfaces/ISession';
-import { Task } from './interfaces/ITask';
+import Session from './interfaces/ISession';
+import Task from './interfaces/ITask';
 
 import styles from './styles/task-detail.module.scss';
 
