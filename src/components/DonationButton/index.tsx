@@ -12,4 +12,4 @@ export function DonationButton() {
             </Link>
         </div>
     );
-};
+}
