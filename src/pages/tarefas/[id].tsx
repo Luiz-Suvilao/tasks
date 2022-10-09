@@ -25,7 +25,7 @@ export default function TaskDetail({
 
 export const getServerSideProps: GetServerSideProps = async (ctx: GetServerSidePropsContext) => {
     const session: Session = await getSession(ctx);
-    const {id} = ctx.params;
+    const { id } = ctx.params;
 
     if (!session?.id) {
         return {
@@ -39,7 +39,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx: GetServerSideP
     const selectedTask = await getTaskById('taskList', String(id))
         .then((snapshot) => {
             const task: Task = {
-                id: String(ctx.params.id),
+                id: String(id),
                 created_at: snapshot.created_at,
                 task: snapshot.task,
                 userId: snapshot.userId,
