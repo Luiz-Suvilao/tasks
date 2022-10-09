@@ -3,7 +3,7 @@ import Head from 'next/head';
 import { getSession } from 'next-auth/react';
 import { format } from 'date-fns';
 
-import { getTaskById } from '../../services/firebaseConnection';
+import { getById } from '../../services/firebaseConnection';
 
 import { FiCalendar } from 'react-icons/fi';
 
@@ -55,7 +55,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx: GetServerSideP
         };
     }
 
-    const selectedTask = await getTaskById('taskList', String(id))
+    const selectedTask = await getById('taskList', String(id))
         .then((snapshot) => {
             const task: Task = {
                 id: String(id),
