@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import Head from 'next/head';
+import Image from 'next/image';
 import { getSession } from 'next-auth/react';
 import { GetServerSideProps, GetServerSidePropsContext } from 'next';
 import { PayPalButtons } from '@paypal/react-paypal-js';
@@ -7,6 +8,8 @@ import { PayPalButtons } from '@paypal/react-paypal-js';
 import { addWithCustomDocument } from '../../services/firebaseConnection';
 
 import { Session } from '../tarefas/interfaces/ISession';
+
+import rocketImage from '../../../public/images/rocket.svg';
 
 import styles from './styles.module.scss';
 
@@ -34,11 +37,20 @@ export default function Donation({
             </Head>
 
             <main className={styles.container}>
-                <img src="/images/rocket.svg" alt="Ícone de um foguete" />
+                <Image
+                    src={rocketImage}
+                    alt="Ícone de um foguete"
+                />
 
                 {donationMade && (
                     <div className={styles.whenToDonate}>
-                        <img src={image} alt={`Imagem do usuário ${name}`} />
+                        <Image
+                            width={50}
+                            height={50}
+                            objectFit="fill"
+                            src={image}
+                            alt={`Imagem do usuário ${name}`}
+                        />
                         <span>Parabéns! Você agora é um apoiador! 😆</span>
                     </div>
                 )}

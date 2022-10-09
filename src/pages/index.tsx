@@ -5,6 +5,8 @@ import Image from 'next/image';
 
 import { fetchAll } from '../services/firebaseConnection';
 
+import notebookImage from '../../public/images/board-user.svg';
+
 import styles from '../styles/index.module.scss';
 
 interface Donor {
@@ -31,7 +33,10 @@ export default function Home({
             </Head>
 
             <main className={styles.contentContainer}>
-                <img src='/images/board-user.svg' alt='Ícone de um notebook com o site aberto.' />
+                <Image
+                    src={notebookImage}
+                    alt='Ícone de um notebook com o site aberto.'
+                />
 
                 <section className={styles.CTA}>
                     <h1>Uma ferramenta para seu dia a dia. Escreva, planeje e organize-se...</h1>
@@ -44,7 +49,10 @@ export default function Home({
 
                 <div className={styles.donors}>
                     {donors.map(donor => (
-                        <img
+                        <Image
+                            width={65}
+                            height={65}
+                            objectFit="fill"
                             key={donor.id}
                             src={donor.image}
                             alt={`Imagem do doador ${donor.userName}`}

@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { signIn, signOut, useSession } from 'next-auth/react'
 
 import { FaGithub } from 'react-icons/fa';
@@ -14,10 +15,15 @@ export function SignInButton() {
             className={styles.signInButton}
             onClick={() => signOut()}
         >
-            <img
-                src={session.user.image}
-                alt={`Foto de usuário do ${session.user.name}`}
-            />
+            <div>
+                <Image
+                    width={35}
+                    height={35}
+                    objectFit="fill"
+                    src={session.user.image}
+                    alt={`Foto de usuário do ${session.user.name}`}
+                />
+            </div>
 
             Olá {(session.user.name || 'Nome não localizado')}
             <FiX
