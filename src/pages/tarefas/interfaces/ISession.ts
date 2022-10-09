@@ -6,4 +6,6 @@ export interface Session {
     },
     expires?: string;
     id?: string|number;
+    isDonor?: boolean,
+    lastDonate?: string|null;
 }
