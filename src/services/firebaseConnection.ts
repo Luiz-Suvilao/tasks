@@ -3,6 +3,7 @@ import {
     addDoc,
     collection,
     getDocs,
+    getDoc,
     getFirestore,
     where,
     query,
@@ -20,7 +21,7 @@ const firebaseConfig = {
     storageBucket: "tarefas-web.appspot.com",
     messagingSenderId: process.env.MESSAGING_SENDER_ID,
     appId: process.env.APP_ID,
-    measurementId:  process.env.MEASUREMENT_ID,
+    measurementId: process.env.MEASUREMENT_ID,
 };
 
 const app = initializeApp(firebaseConfig);
@@ -29,7 +30,7 @@ const db = getFirestore(app);
 
 export const addTask = async (path: string, data: Object) => {
     try {
-        return  await addDoc(collection(db, path), data);
+        return await addDoc(collection(db, path), data);
     } catch (e) {
         console.error("Error adding document: ", e);
     }
