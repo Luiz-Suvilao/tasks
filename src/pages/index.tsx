@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import Image from 'next/image';
 
-import styles from '../styles/pages/index.module.scss';
+import styles from '../styles/index.module.scss';
 import { GetStaticProps } from "next";
 
 export default function Home() {
