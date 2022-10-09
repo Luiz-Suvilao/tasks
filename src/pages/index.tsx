@@ -1,8 +1,10 @@
 import Head from 'next/head';
+import { GetStaticProps } from 'next';
 import Image from 'next/image';
 
+import { fetchAll } from '../services/firebaseConnection';
+
 import styles from '../styles/index.module.scss';
-import { GetStaticProps } from "next";
 
 export default function Home() {
     return (
@@ -35,6 +37,8 @@ export default function Home() {
 }
 
 export const getStaticProps: GetStaticProps = async () => {
+    const donors = await fetchAll('donors');
+
     return {
         props: {},
         revalidate: 60 * 60
