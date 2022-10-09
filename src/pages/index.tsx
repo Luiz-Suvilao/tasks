@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import Head from 'next/head';
 import { GetStaticProps } from 'next';
 import Image from 'next/image';
@@ -6,7 +7,23 @@ import { fetchAll } from '../services/firebaseConnection';
 
 import styles from '../styles/index.module.scss';
 
-export default function Home() {
+interface Donor {
+    image: string;
+    lastDonate: Date;
+    donate: boolean;
+    userName: string;
+    id: string;
+}
+
+interface HomeProps {
+    data:string;
+}
+
+export default function Home({
+    data
+}: HomeProps) {
+    const [donors, setDonors] = useState<Donor[]>(JSON.parse(data));
+
     return (
         <>
             <Head>
@@ -23,14 +40,19 @@ export default function Home() {
                     </p>
                 </section>
 
-                <h1 className={styles.donorsTitle}>Doadores</h1>
+                {donors.length !== 0 && (<h1 className={styles.donorsTitle}>Nossos apoiadores</h1>)}
 
                 <div className={styles.donors}>
-                    <img
-                        src="https://sujeitoprogramador.com/steve.png"
-                        alt="Usuário"
-                    />
+                    {donors.map(donor => (
+                        <img
+                            key={donor.id}
+                            src={donor.image}
+                            alt={`Imagem do doador ${donor.userName}`}
+                        />
+                    ))}
                 </div>
+
+                <h4>Torne-se um apoiador doando para o projeto</h4>
             </main>
         </>
     );
@@ -40,7 +62,9 @@ export const getStaticProps: GetStaticProps = async () => {
     const donors = await fetchAll('donors');
 
     return {
-        props: {},
+        props: {
+            data: JSON.stringify(donors)
+        },
         revalidate: 60 * 60
     }
 }
