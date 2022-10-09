@@ -19,14 +19,14 @@ export default function Donation({
 }: DonationProps) {
     const [donationMade, setDonationMade] = useState(false);
     const handleDonation = async () => {
-        await addWithCustomDocument('users',  String(id), {
+        await addWithCustomDocument('donors',  String(id), {
             donate: true,
             lastDonate: new Date(),
             image,
             userName: name
         }).then(() => setDonationMade(true));
     };
-    console.log(donationMade);
+
     return (
         <>
             <Head>
