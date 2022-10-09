@@ -46,7 +46,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx: GetServerSideP
     const session: Session = await getSession(ctx);
     const { id } = ctx.params;
 
-    if (!session?.id) {
+    if (!session?.isDonor) {
         return {
             redirect: {
                 destination: '/tarefas',
