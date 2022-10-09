@@ -25,7 +25,7 @@ import {
 import { Session } from './interfaces/ISession';
 import { Task } from './interfaces/ITask';
 
-import styles from './styles.module.scss';
+import styles from './styles/styles.module.scss';
 
 interface TasksProps {
     user: {
