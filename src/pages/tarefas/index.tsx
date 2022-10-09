@@ -22,6 +22,8 @@ import {
     updateTaskById
 } from '../../services/firebaseConnection';
 
+import { Session } from './ISession';
+
 import styles from './styles.module.scss';
 
 interface Task {
@@ -31,16 +33,6 @@ interface Task {
     task: string;
     userId: string|number;
     formatted_created_at?: string;
-}
-
-interface Session {
-    user?: {
-        name?: string;
-        email?: string;
-        image?: string;
-    },
-    expires?: string;
-    id?: string|number;
 }
 
 interface TasksProps {
