@@ -45,6 +45,21 @@ export const addWithCustomDocument = async (path: string, pathSegments: string, 
     }
 };
 
+export const fetchAll = async (path: string) => {
+    const querySnapshot = await getDocs(collection(db, path));
+    const all = [];
+
+    querySnapshot.forEach((doc) => {
+        const current = {
+            ...doc.data(),
+            id: doc.id
+        };
+        all.push(current);
+    });
+
+    return all;
+}
+
 export const fetchUserTasks = async (path: string, userId: string|number) => {
     const q = query(collection(db, path), where('userId', "==", userId));
     const querySnapshot = await getDocs(q);
