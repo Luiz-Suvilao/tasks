@@ -28,7 +28,7 @@ const app = initializeApp(firebaseConfig);
 
 const db = getFirestore(app);
 
-export const addTask = async (path: string, data: Object) => {
+export const add = async (path: string, data: Object) => {
     try {
         return await addDoc(collection(db, path), data);
     } catch (e) {

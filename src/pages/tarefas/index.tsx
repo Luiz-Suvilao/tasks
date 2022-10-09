@@ -16,7 +16,7 @@ import {
 import { format } from 'date-fns';
 
 import {
-    addTask,
+    add,
     fetchUserTasks,
     deleteUniqueTaskById,
     updateTaskById
@@ -67,7 +67,7 @@ export default function Tasks({
             return;
         }
 
-        await addTask('taskList', {
+        await add('taskList', {
             created_at: new Date(),
             task: taskName,
             userId: id,
