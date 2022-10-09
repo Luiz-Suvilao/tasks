@@ -60,6 +60,5 @@ export const deleteUniqueTaskById = async (path: string, taskId: string) => {
 
 export const updateTaskById = async (path: string, taskId: string, data: object) => {
     const docRef = doc(db, path, taskId);
-
     await updateDoc(docRef, data);
 };
