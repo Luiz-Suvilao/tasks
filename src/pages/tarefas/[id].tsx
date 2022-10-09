@@ -67,7 +67,18 @@ export const getServerSideProps: GetServerSideProps = async (ctx: GetServerSideP
             };
 
             return JSON.stringify(task);
+        }).catch(() => {
+            return {};
         });
+
+    if (Object.keys(selectedTask).length === 0) {
+        return {
+            redirect: {
+                destination: '/tarefas',
+                permanent: false,
+            }
+        };
+    }
 
     return {
         props: {
