@@ -63,3 +63,14 @@ export const updateTaskById = async (path: string, taskId: string, data: object)
     const docRef = doc(db, path, taskId);
     await updateDoc(docRef, data);
 };
+
+export const getTaskById = async (path: string, taskId: string) => {
+    const docRef = doc(db, path, taskId);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+        return docSnap.data();
+    }
+
+    return {};
+};
