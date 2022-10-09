@@ -4,6 +4,7 @@ import {
     collection,
     getDocs,
     getDoc,
+    setDoc,
     getFirestore,
     where,
     query,
@@ -31,6 +32,14 @@ const db = getFirestore(app);
 export const add = async (path: string, data: Object) => {
     try {
         return await addDoc(collection(db, path), data);
+    } catch (e) {
+        console.error("Error adding document: ", e);
+    }
+};
+
+export const addWithCustomDocument = async (path: string, pathSegments: string, data: Object) => {
+    try {
+        return await setDoc(doc(db, path, pathSegments), data);
     } catch (e) {
         console.error("Error adding document: ", e);
     }
