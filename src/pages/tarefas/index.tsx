@@ -13,7 +13,8 @@ import {
     FiX
 } from 'react-icons/fi';
 
-import { format } from 'date-fns';
+import { format, formatDistance } from 'date-fns';
+import { ptBR } from 'date-fns/locale';
 
 import {
     add,
@@ -33,11 +34,15 @@ interface TasksProps {
         id: string|number;
     },
     taskList: string;
+    isDonor?: boolean;
+    lastDonate?: string|Date|null;
 }
 
 export default function Tasks({
     user: { id, name },
-    taskList
+    taskList,
+    isDonor,
+    lastDonate
 }: TasksProps) {
     const [taskName, setTaskName] = useState('');
     const [taskListFromState, setTaskList] = useState<Task[]>(JSON.parse(taskList));
@@ -172,16 +177,18 @@ export default function Tasks({
                                         <time>{task.formatted_created_at}</time>
                                     </div>
 
-                                    <button
-                                        onClick={() => handleEditTask(task)}
-                                    >
-                                        <FiEdit2
-                                            size={20}
-                                            color="fff"
-                                        />
+                                    {isDonor && (
+                                        <button
+                                            onClick={() => handleEditTask(task)}
+                                        >
+                                            <FiEdit2
+                                                size={20}
+                                                color="fff"
+                                            />
 
-                                        <span>Editar</span>
-                                    </button>
+                                            <span>Editar</span>
+                                        </button>
+                                    )}
                                 </div>
 
                                 <button
@@ -200,14 +207,16 @@ export default function Tasks({
                 </section>
             </main>
 
-            <div className={styles.thanks}>
-                <h3>Obrigado por doar para este projeto! 🥰</h3>
+            {isDonor && (
+                <div className={styles.thanks}>
+                    <h3>Obrigado por doar para este projeto! 🥰</h3>
 
-                <div>
-                    <FiClock size={28} color="#fff" />
-                    <time>Última doação há 3 dias.</time>
+                    <div>
+                        <FiClock size={28} color="#fff" />
+                        <time>Última doação há {formatDistance(new Date(lastDonate), new Date(), {locale: ptBR})}.</time>
+                    </div>
                 </div>
-            </div>
+            )}
         </>
     );
 };
@@ -234,7 +243,9 @@ export const getServerSideProps: GetServerSideProps = async (ctx: GetServerSideP
     return {
         props: {
             user,
-            taskList
+            taskList,
+            isDonor: session.isDonor,
+            lastDonate: session.lastDonate,
         }
     };
 }
