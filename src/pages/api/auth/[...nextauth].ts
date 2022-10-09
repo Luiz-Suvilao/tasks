@@ -1,5 +1,6 @@
 import NextAuth from 'next-auth'
 import GithubProvider from 'next-auth/providers/github'
+import { getById } from "../../../services/firebaseConnection";
 
 export const authOptions = {
     providers: [
@@ -16,14 +17,19 @@ export const authOptions = {
     callbacks: {
         async session({ session, token }) {
             try {
+                const donor = await getById('donors', token.sub);
                 return {
                     ...session,
                     id: token.sub,
+                    isDonor: donor?.donate ?? false,
+                    lastDonate: donor?.lastDonate.toDate() ?? null
                 };
             } catch {
                 return {
                     ...session,
                      id: null,
+                    isDonor: false,
+                    lastDonate: null,
                 };
             }
         },
