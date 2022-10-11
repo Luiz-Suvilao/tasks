@@ -77,7 +77,7 @@ export default function Tasks({
             task: taskName,
             userId: id,
             userName: name
-        }).then(task => {
+        }).then(async task => {
             const data: Task = {
                 id: task.id,
                 created_at: new Date(),
@@ -89,8 +89,20 @@ export default function Tasks({
 
             setTaskList([...taskListFromState, data]);
             setTaskName('');
+            await sendEmailTaskCreatedConfirmation(data);
         });
     };
+
+    const sendEmailTaskCreatedConfirmation = async (task: object) => {
+        await fetch('http://localhost:3000/api/email/successCreatedTask', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(task)
+        });
+    }
 
     const handleDeleteTask = async (taskId:string) => {
         await deleteUniqueTaskById('taskList', taskId)

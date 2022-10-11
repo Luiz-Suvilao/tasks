@@ -36,7 +36,7 @@ export const authOptions = {
 
         async signIn({ user, account, profile, email, credentials }) {
             try {
-                return await fetch('http://localhost:3000/api/successLogin', {
+                return await fetch('http://localhost:3000/api/email/successLogin', {
                     method: 'POST',
                     headers: {
                         'Accept': 'application/json, text/plain, */*',
