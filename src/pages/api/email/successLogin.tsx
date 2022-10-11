@@ -1,18 +1,16 @@
-require('dotenv').config();
-const nodemailer = require('nodemailer');
+export default function (req, res) {
+    require('dotenv').config();
+    const nodemailer = require('nodemailer');
 
-export default async function (req, res) {
     const transporter = nodemailer.createTransport({
         host: 'smtp.gmail.com',
-        service: 'gmail',
-        port: 587,
+        port: 465,
         auth: {
             user: process.env.EMAIL,
             pass: process.env.PASSWORD,
         },
         secure: true,
     });
-
     const html = `
         <div>
             <h3>Login efetuado com sucesso! Aproveite nossa plataforma :)</h3>
@@ -24,23 +22,12 @@ export default async function (req, res) {
     `;
     const mailData = {
         from: 'luizfilipe.tech@gmail.com',
-        to: req.body.email,
+        to: 'suvilao@gmail.com',
         subject: `Olá ${req.body.name}!`,
         html
     };
 
-    return await new Promise((resolve, reject) => {
-        transporter.sendMail(mailData, (err, info) => {
-            if (err) {
-                console.error(err);
-                reject(err);
-                return;
-            }
+    transporter.sendMail(mailData, (err, info) => {});
 
-            console.log(info);
-            resolve(info);
-        });
-    }).then(() => {
-        res.status(200).json({ success: true });
-    });
+    return res.status(200).json({success: true});
 }
