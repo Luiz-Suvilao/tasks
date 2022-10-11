@@ -42,11 +42,14 @@ export default async function (req, res) {
             if (err) {
                 console.error(err);
                 reject(err);
+                res.status(500).json({ success: false, err});
                 return;
             }
             resolve(info);
         });
     }).then(() => {
         res.status(200).json({ success: true });
-    });
+    }).catch(e => {
+        res.status(500).json({ success: false, e});
+    })
 }
