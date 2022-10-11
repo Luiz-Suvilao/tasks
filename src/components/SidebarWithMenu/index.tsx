@@ -4,12 +4,15 @@ import { SignInButton } from '../SignInButton';
 
 import { useSidebar } from '../../hooks/sidebar';
 import { useUser } from '../../hooks/user'
+import { useModal } from '../../hooks/modal'
 
 import styles from './sidebar.module.scss';;
 
 export function SidebarWithMenu() {
     const { toggleSidebar, open } = useSidebar();
     const { logged } = useUser();
+    const { toggleModal } = useModal();
+
     return (
         <aside className={styles.aside}>
             <div className={styles.container}>
@@ -50,7 +53,10 @@ export function SidebarWithMenu() {
                             </Link>
 
                             <Link href="/tarefas">
-                                <a onClick={() => toggleSidebar()}>Minhas tarefas</a>
+                                <a onClick={() => {
+                                    toggleSidebar();
+                                    !logged && toggleModal();
+                                }}>Minhas tarefas</a>
                             </Link>
                         </div>
                     </div>
