@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { fetchAll } from '../services/firebaseConnection';
 
 import { useSidebar } from '../hooks/sidebar';
+import { useModal } from '../hooks/modal';
 
 import notebookImage from '../../public/images/board-user.svg';
 
@@ -29,9 +30,10 @@ export default function Home({
     const { open: sidebarOpen } = useSidebar();
     const [donors, setDonors] = useState<Donor[]>(JSON.parse(data));
     const { open } = useSidebar();
+    const { modalOpen } = useModal();
 
     useEffect(() => {
-        document.body.className = open ? 'locked' : 'unlocked';
+        document.body.className = (open || modalOpen) ? 'locked' : 'unlocked';
     });
 
     return (
