@@ -12,7 +12,7 @@ interface IModalProvider {
 const ModalContext = createContext<IModalContext>({} as IModalContext);
 
 const ModalProvider = ({ children }: IModalProvider) => {
-    const [modalOpen, setOpen] = useState<boolean>(true);
+    const [modalOpen, setOpen] = useState<boolean>(false);
 
     const toggleModal = () => setOpen(!modalOpen);
 
