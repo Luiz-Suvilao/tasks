@@ -43,12 +43,14 @@ export default function Donation({
             </Head>
 
             <main className={styles.container}>
-                <Image
-                    src={rocketImage}
-                    alt="Ícone de um foguete"
-                />
+                {open === false && (
+                    <Image
+                        src={rocketImage}
+                        alt="Ícone de um foguete"
+                    />
+                )}
 
-                {donationMade && (
+                {(donationMade && open === false) && (
                     <div className={styles.whenToDonate}>
                         <Image
                             width={50}
@@ -69,35 +71,37 @@ export default function Donation({
 
                 <strong>Apareça na nossa home, tenha funcionalidades exclusivas e mande sugestões para nós. 😉</strong>
 
-                <PayPalButtons
-                    createOrder={(data, actions) => {
-                        return actions.order.create({
-                           purchase_units: [{
-                               amount: {
-                                   value: '1'
-                               }
-                           }]
-                        });
-                    }}
-                    onApprove={(data, actions) => {
-                        return actions.order.capture().then(async (details) => {
-                            await handleDonation();
-                            const dataToEmail = {
-                                ...details,
-                                email,
-                                name
-                            };
-                            await fetch('https://digital-tarefas.vercel.app/api/email/successPayment', {
-                                method: 'POST',
-                                headers: {
-                                    'Accept': 'application/json, text/plain, */*',
-                                    'Content-Type': 'application/json'
-                                },
-                                body: JSON.stringify(dataToEmail)
+                {open === false && (
+                    <PayPalButtons
+                        createOrder={(data, actions) => {
+                            return actions.order.create({
+                                purchase_units: [{
+                                    amount: {
+                                        value: '1'
+                                    }
+                                }]
                             });
-                        });
-                    }}
-                />
+                        }}
+                        onApprove={(data, actions) => {
+                            return actions.order.capture().then(async (details) => {
+                                await handleDonation();
+                                const dataToEmail = {
+                                    ...details,
+                                    email,
+                                    name
+                                };
+                                await fetch('https://digital-tarefas.vercel.app/api/email/successPayment', {
+                                    method: 'POST',
+                                    headers: {
+                                        'Accept': 'application/json, text/plain, */*',
+                                        'Content-Type': 'application/json'
+                                    },
+                                    body: JSON.stringify(dataToEmail)
+                                });
+                            });
+                        }}
+                    />
+                )}
             </main>
         </>
     )
