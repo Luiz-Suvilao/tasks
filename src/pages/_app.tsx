@@ -8,6 +8,7 @@ import { DonationButton } from '../components/DonationButton';
 import { SidebarWithMenu } from '../components/SidebarWithMenu';
 
 import { SidebarProvider } from '../hooks/sidebar';
+import { UserProvider } from '../hooks/user';
 
 import '../styles/global.scss';
 
@@ -27,10 +28,12 @@ function MyApp({
         <SessionProvider session={pageProps.session}>
             <PayPalScriptProvider options={initialPayPalOptions}>
                 <SidebarProvider>
-                    <Header/>
-                    <SidebarWithMenu />
-                    <Component {...pageProps} />
-                    <DonationButton/>
+                    <UserProvider>
+                        <Header/>
+                        <SidebarWithMenu />
+                        <Component {...pageProps} />
+                        <DonationButton/>
+                    </UserProvider>
                 </SidebarProvider>
             </PayPalScriptProvider>
         </SessionProvider>
