@@ -29,7 +29,9 @@ export default function (req, res) {
     };
 
     try {
-        transporter.sendMail(mailData, (err, info) => {});
+        transporter.sendMail(mailData, (err, info) => {
+            console.log(err, info);
+        });
         return res.status(200).json({success: true});
     } catch (err) {
         return res.status(500).json({success: false, message: err.message});
