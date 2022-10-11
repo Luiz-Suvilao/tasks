@@ -13,6 +13,7 @@ import { UserProvider } from '../hooks/user';
 import { ModalProvider } from '../hooks/modal';
 
 import '../styles/global.scss';
+import { Footer } from "../components/Footer";
 
 function MyApp({
     Component,
@@ -37,6 +38,7 @@ function MyApp({
                             <Component {...pageProps} />
                             <Modal />
                             <DonationButton />
+                            <Footer />
                         </ModalProvider>
                     </UserProvider>
                 </SidebarProvider>
