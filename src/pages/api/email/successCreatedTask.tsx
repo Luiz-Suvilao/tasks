@@ -12,6 +12,7 @@ export default async function (req, res) {
     const transporter = nodemailer.createTransport({
         host: 'smtp.gmail.com',
         port: 465,
+        service: 'Gmail',
         auth: {
             user: process.env.EMAIL,
             pass: process.env.PASSWORD,
@@ -30,10 +31,9 @@ export default async function (req, res) {
     `;
 
     return await new Promise((resolve, reject) => {
-        console.log(req.body);
         const mailData = {
             from: 'luizfilipe.tech@gmail.com',
-            to: email,
+            to: String(email),
             subject: `Olá, ${userName}!`,
             html
         };
