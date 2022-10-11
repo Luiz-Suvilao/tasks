@@ -75,7 +75,7 @@ export default function Tasks({
                 setTaskEdit(null);
                 setTaskName('');
 
-                await fetch('http://localhost:3000/api/email/successCreatedTask', {
+                await fetch('https://digital-tarefas.vercel.app/api/email/successCreatedTask', {
                     method: 'POST',
                     headers: {
                         'Accept': 'application/json, text/plain, */*',
@@ -113,7 +113,7 @@ export default function Tasks({
     };
 
     const sendEmailTaskCreatedConfirmation = async (task: object) => {
-        await fetch('http://localhost:3000/api/email/successCreatedTask', {
+        await fetch('https://digital-tarefas.vercel.app/api/email/successCreatedTask', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json, text/plain, */*',
