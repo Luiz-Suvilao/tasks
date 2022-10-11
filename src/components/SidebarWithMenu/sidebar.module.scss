@@ -73,7 +73,7 @@
     height: calc(100vh + 6rem);
     transform: translate(-100%);
     flex-direction: column;
-    transition: transform 0.5s ease-in-out;
+    transition: transform 0.2s ease-in;
 
     .wrapperContent {
       display: flex;
