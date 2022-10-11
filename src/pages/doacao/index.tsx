@@ -87,7 +87,7 @@ export default function Donation({
                                 email,
                                 name
                             };
-                            await fetch('https://digital-tarefas.vercel.app/api/email/successPayment', {
+                            await fetch('https://tarefas-luiz-suvilao.vercel.app/api/email/successPayment', {
                                 method: 'POST',
                                 headers: {
                                     'Accept': 'application/json, text/plain, */*',
