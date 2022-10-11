@@ -26,7 +26,7 @@ export function SidebarWithMenu() {
                 <nav className={styles.menuItems}>
                     <div className={styles.wrapperContent}>
                         <Link href="/">
-                            <h1>Tarefas</h1>
+                            <h1 onClick={() => toggleSidebar()}>Tarefas</h1>
                         </Link>
 
                         <div className={styles.wrapperLinks}>
@@ -35,7 +35,7 @@ export function SidebarWithMenu() {
                             </Link>
 
                             <Link href="/tarefas">
-                                <a>Minhas tarefas</a>
+                                <a onClick={() => toggleSidebar()}>Minhas tarefas</a>
                             </Link>
                         </div>
                     </div>
