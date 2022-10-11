@@ -1,5 +1,7 @@
 import NextAuth from 'next-auth'
 import GithubProvider from 'next-auth/providers/github'
+import GoogleProvider from 'next-auth/providers/google';
+
 import { getById } from "../../../services/firebaseConnection";
 
 export const authOptions = {
@@ -13,6 +15,17 @@ export const authOptions = {
                 }
             }
         }),
+        GoogleProvider({
+            clientId: process.env.GOOGLE_CLIENT_ID,
+            clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+            authorization: {
+                params: {
+                    prompt: 'consent',
+                    access_type: 'offline',
+                    response_type: 'code'
+                }
+            }
+        })
     ],
     callbacks: {
         async session({ session, token }) {
@@ -27,7 +40,7 @@ export const authOptions = {
             } catch {
                 return {
                     ...session,
-                     id: null,
+                     id: token.sub,
                     isDonor: false,
                     lastDonate: null,
                 };

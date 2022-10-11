@@ -22,7 +22,13 @@ export function Header() {
                     </Link>
                 </nav>
 
-                <SignInButton />
+                <SignInButton
+                    provider="google"
+                />
+
+                <SignInButton
+                    provider="github"
+                />
             </div>
         </header>
     );

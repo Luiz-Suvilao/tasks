@@ -1,12 +1,18 @@
 import Image from 'next/image';
 import { signIn, signOut, useSession } from 'next-auth/react'
 
-import { FaGithub } from 'react-icons/fa';
+import { FaGithub, FaGoogle } from 'react-icons/fa';
 import { FiX } from 'react-icons/fi';
 
 import styles from './sigInButton.module.scss';
 
-export function SignInButton() {
+interface ISignButtonProps {
+    provider: 'github' | 'google'
+}
+
+export function SignInButton({
+    provider
+}: ISignButtonProps) {
     const { data: session } = useSession();
 
     return session ? (
@@ -35,10 +41,10 @@ export function SignInButton() {
         <button
             type="button"
             className={styles.signInButton}
-            onClick={() => signIn('github')}
+            onClick={() => signIn(provider)}
         >
-            <FaGithub color="#ffb800"/>
-            Entrar com GitHub
+            {provider === 'github' ? (<FaGithub color="#ffb800"/>) : (<FaGoogle color="#ffb800"/>)}
+            Entrar com {provider === 'github' ? 'GitHub' : 'Google'}
         </button>
     );
 }

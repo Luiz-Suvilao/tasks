@@ -19,7 +19,13 @@ export function SidebarWithMenu() {
                         <span className={`${styles.line} ${styles.line3}`}></span>
                     </div>
 
-                    <SignInButton />
+                    <SignInButton
+                        provider="google"
+                    />
+
+                    <SignInButton
+                        provider="github"
+                    />
                 </div>
 
 
