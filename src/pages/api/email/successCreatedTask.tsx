@@ -5,7 +5,8 @@ export default function (req, res) {
     const nodemailer = require('nodemailer');
     const transporter = nodemailer.createTransport({
         host: 'smtp.gmail.com',
-        port: 465,
+        service: 'gmail',
+        port: 587,
         auth: {
             user: process.env.EMAIL,
             pass: process.env.PASSWORD,
@@ -30,7 +31,11 @@ export default function (req, res) {
 
     try {
         transporter.sendMail(mailData, (err, info) => {
-            console.log(err, info);
+            if(err) {
+                console.log('Error Occurs', err);
+            } else {
+                console.log('Email sent successfully', info);
+            }
         });
         return res.status(200).json({success: true});
     } catch (err) {
