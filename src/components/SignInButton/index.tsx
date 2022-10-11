@@ -52,7 +52,7 @@ export function SignInButton({
                 toggleLogged();
             }}
         >
-            {provider === 'github' ? (<FaGithub color="#ffb800"/>) : (<FaGoogle color="#ffb800"/>)}
+            {provider === 'github' ? (<FaGithub />) : (<FaGoogle />)}
             Entrar com {provider === 'github' ? 'GitHub' : 'Google'}
         </button>
     );
