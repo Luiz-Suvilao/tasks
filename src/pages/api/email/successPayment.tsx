@@ -1,9 +1,9 @@
 import { format } from 'date-fns';
 
-export default function (req, res) {
-    require('dotenv').config();
-    const nodemailer = require('nodemailer');
+require('dotenv').config();
+const nodemailer = require('nodemailer');
 
+export default async function (req, res) {
     const transporter = nodemailer.createTransport({
         host: 'smtp.gmail.com',
         port: 465,
@@ -13,6 +13,19 @@ export default function (req, res) {
         },
         secure: true,
     });
+
+    await new Promise((resolve, reject) => {
+        transporter.verify(function (error, success) {
+            if (error) {
+                console.log(error);
+                reject(error);
+            } else {
+                console.log("Server is ready to take our messages");
+                resolve(success);
+            }
+        });
+    });
+
     const html = `
         <div>
             <h3>Pagamento efetuado com sucesso!</h3>
@@ -29,12 +42,22 @@ export default function (req, res) {
     `;
     const mailData = {
         from: 'luizfilipe.tech@gmail.com',
-        to: 'suvilao@gmail.com',
+        to: req.body.email,
         subject: `Olá ${req.body.name}, estamos confirmando seu pagamento de R$ 1,00`,
         html
     };
 
-    transporter.sendMail(mailData, (err, info) => {});
+    await new Promise((resolve, reject) => {
+        transporter.sendMail(mailData, (err, info) => {
+            if (err) {
+                console.error(err);
+                reject(err);
+            } else {
+                console.log(info);
+                resolve(info);
+            }
+        });
+    });
 
-    return res.status(200).json({success: true});
+    res.status(200).json({ success: true });
 }
