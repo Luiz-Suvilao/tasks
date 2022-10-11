@@ -21,7 +21,7 @@ function MyApp({
     session: Session;
 }>) {
     const initialPayPalOptions = {
-        'client-id': 'ASomlkeNijYR9XsBLXJc0P3t60ohOy1PofKRrNWjG3oio4HO_xdlEZgPpibvcOobSQt7c18L4vZoTqOM',
+        'client-id': 'ARiSoIUbKDe3uhWBbuX1yjkjwAl5VVb6CKEU1waRyNFm2k_t1u-4dEBZW7QGGUZEDQs9fw5ZDdTa8ste',
         currency: 'BRL',
         intent: 'capture'
     };
