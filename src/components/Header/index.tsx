@@ -2,11 +2,13 @@ import Link from 'next/link';
 
 import { SignInButton } from '../SignInButton';
 import { useUser } from '../../hooks/user';
+import { useModal } from '../../hooks/modal';
 
 import styles from './header.module.scss';
 
 export function Header() {
     const { logged } = useUser();
+    const { toggleModal } = useModal();
 
     return (
         <header className={styles.headerContainer}>
@@ -21,7 +23,7 @@ export function Header() {
                     </Link>
 
                     <Link href="/tarefas">
-                        <a>Minhas tarefas</a>
+                        <a onClick={() => !logged && toggleModal()}>Minhas tarefas</a>
                     </Link>
                 </nav>
 
