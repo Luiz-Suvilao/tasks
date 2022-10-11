@@ -82,8 +82,7 @@ export default function Donation({
                                 email,
                                 name
                             };
-                            console.log(dataToEmail);
-                            await fetch('http://localhost:3000/api/successPayment', {
+                            await fetch('http://localhost:3000/api/email/successPayment', {
                                 method: 'POST',
                                 headers: {
                                     'Accept': 'application/json, text/plain, */*',
