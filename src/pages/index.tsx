@@ -5,6 +5,8 @@ import Image from 'next/image';
 
 import { fetchAll } from '../services/firebaseConnection';
 
+import { useSidebar } from '../hooks/sidebar';
+
 import notebookImage from '../../public/images/board-user.svg';
 
 import styles from '../styles/index.module.scss';
@@ -24,6 +26,7 @@ interface HomeProps {
 export default function Home({
     data
 }: HomeProps) {
+    const { open: sidebarOpen } = useSidebar();
     const [donors, setDonors] = useState<Donor[]>(JSON.parse(data));
 
     return (
@@ -33,10 +36,12 @@ export default function Home({
             </Head>
 
             <main className={styles.contentContainer}>
-                <Image
-                    src={notebookImage}
-                    alt='Ícone de um notebook com o site aberto.'
-                />
+                {!sidebarOpen && (
+                    <Image
+                        src={notebookImage}
+                        alt='Ícone de um notebook com o site aberto.'
+                    />
+                )}
 
                 <section className={styles.CTA}>
                     <h1>Uma ferramenta para seu dia a dia. Escreva, planeje e organize-se...</h1>
@@ -47,18 +52,20 @@ export default function Home({
 
                 {donors.length !== 0 && (<h1 className={styles.donorsTitle}>Nossos apoiadores</h1>)}
 
-                <div className={styles.donors}>
-                    {donors.map(donor => (
-                        <Image
-                            width={65}
-                            height={65}
-                            objectFit="fill"
-                            key={donor.id}
-                            src={donor.image}
-                            alt={`Imagem do doador ${donor.userName}`}
-                        />
-                    ))}
-                </div>
+                {!sidebarOpen && (
+                    <div className={styles.donors}>
+                        {donors.map(donor => (
+                            <Image
+                                width={65}
+                                height={65}
+                                objectFit="fill"
+                                key={donor.id}
+                                src={donor.image}
+                                alt={`Imagem do doador ${donor.userName}`}
+                            />
+                        ))}
+                    </div>
+                )}
 
                 <h4>Torne-se um apoiador doando para o projeto</h4>
             </main>
