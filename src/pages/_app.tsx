@@ -6,9 +6,11 @@ import { PayPalScriptProvider } from '@paypal/react-paypal-js';
 import { Header } from '../components/Header';
 import { DonationButton } from '../components/DonationButton';
 import { SidebarWithMenu } from '../components/SidebarWithMenu';
+import { Modal } from '../components/Modal';
 
 import { SidebarProvider } from '../hooks/sidebar';
 import { UserProvider } from '../hooks/user';
+import { ModalProvider } from '../hooks/modal';
 
 import '../styles/global.scss';
 
@@ -29,10 +31,13 @@ function MyApp({
             <PayPalScriptProvider options={initialPayPalOptions}>
                 <SidebarProvider>
                     <UserProvider>
-                        <Header/>
-                        <SidebarWithMenu />
-                        <Component {...pageProps} />
-                        <DonationButton/>
+                        <ModalProvider>
+                            <Header/>
+                            <SidebarWithMenu />
+                            <Component {...pageProps} />
+                            <Modal />
+                            <DonationButton />
+                        </ModalProvider>
                     </UserProvider>
                 </SidebarProvider>
             </PayPalScriptProvider>
