@@ -12,13 +12,14 @@ import Session from '../tarefas/interfaces/ISession';
 import rocketImage from '../../../public/images/rocket.svg';
 
 import styles from './styles.module.scss';
+import { session } from "next-auth/core/routes";
 
 interface DonationProps {
     session: Session;
 }
 
 export default function Donation({
-    session: { user: { name, image }, id }
+    session: { user: { name, image, email }, id }
 }: DonationProps) {
     const [donationMade, setDonationMade] = useState(false);
     const handleDonation = async () => {
@@ -76,6 +77,20 @@ export default function Donation({
                     onApprove={(data, actions) => {
                         return actions.order.capture().then(async (details) => {
                             await handleDonation();
+                            const dataToEmail = {
+                                ...details,
+                                email,
+                                name
+                            };
+                            console.log(dataToEmail);
+                            await fetch('http://localhost:3000/api/successPayment', {
+                                method: 'POST',
+                                headers: {
+                                    'Accept': 'application/json, text/plain, */*',
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify(dataToEmail)
+                            });
                         });
                     }}
                 />
