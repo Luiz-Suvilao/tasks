@@ -3,7 +3,6 @@ import { format } from 'date-fns';
 export default function (req, res) {
     require('dotenv').config();
     const nodemailer = require('nodemailer');
-    console.log(req.body);
     const transporter = nodemailer.createTransport({
         host: 'smtp.gmail.com',
         port: 465,
