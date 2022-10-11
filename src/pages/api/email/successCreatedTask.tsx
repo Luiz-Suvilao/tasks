@@ -1,8 +1,7 @@
-import { format } from 'date-fns';
+require('dotenv').config();
+const nodemailer = require('nodemailer');
 
-export default function (req, res) {
-    require('dotenv').config();
-    const nodemailer = require('nodemailer');
+export default async function (req, res) {
     const transporter = nodemailer.createTransport({
         host: 'smtp.gmail.com',
         service: 'gmail',
@@ -13,6 +12,19 @@ export default function (req, res) {
         },
         secure: true,
     });
+
+    await new Promise((resolve, reject) => {
+        transporter.verify(function (error, success) {
+            if (error) {
+                console.log(error);
+                reject(error);
+            } else {
+                console.log("Server is ready to take our messages");
+                resolve(success);
+            }
+        });
+    });
+
     const html = `
         <div>
             <h3>${req.body.isUpdate ? 'Atualização' : 'Criação'} de tarefa!</h3>
@@ -24,21 +36,22 @@ export default function (req, res) {
     `;
     const mailData = {
         from: 'luizfilipe.tech@gmail.com',
-        to: 'suvilao@gmail.com',
+        to: req.body.email,
         subject: `Olá ${req.body.userName}!`,
         html
     };
 
-    try {
+    await new Promise((resolve, reject) => {
         transporter.sendMail(mailData, (err, info) => {
-            if(err) {
-                console.log('Error Occurs', err);
+            if (err) {
+                console.error(err);
+                reject(err);
             } else {
-                console.log('Email sent successfully', info);
+                console.log(info);
+                resolve(info);
             }
         });
-        return res.status(200).json({success: true});
-    } catch (err) {
-        return res.status(500).json({success: false, message: err.message});
-    }
+    });
+
+    res.status(200).json({ success: true });
 }

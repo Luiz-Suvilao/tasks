@@ -34,6 +34,7 @@ interface TasksProps {
     user: {
         name: string;
         id: string|number;
+        email: string;
     },
     taskList: string;
     isDonor?: boolean;
@@ -41,7 +42,7 @@ interface TasksProps {
 }
 
 export default function Tasks({
-    user: { id, name },
+    user: { id, name, email },
     taskList,
     isDonor,
     lastDonate
@@ -83,7 +84,8 @@ export default function Tasks({
                     },
                     body: JSON.stringify({
                         ... updatedTaskList[taskIndex],
-                        isUpdate: true
+                        isUpdate: true,
+                        email
                     })
                 });
             });
@@ -103,12 +105,15 @@ export default function Tasks({
                 formatted_created_at: format(new Date(), 'dd MMMM yyyy'),
                 task: taskName,
                 userId: id,
-                userName: name
+                userName: name,
             }
 
             setTaskList([...taskListFromState, data]);
             setTaskName('');
-            await sendEmailTaskCreatedConfirmation(data);
+            await sendEmailTaskCreatedConfirmation({
+                ...data,
+                email
+            });
         });
     };
 
@@ -269,6 +274,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx: GetServerSideP
     const user = {
         name: session?.user.name,
         id: session?.id,
+        email: session.user.email
     }
 
     return {
