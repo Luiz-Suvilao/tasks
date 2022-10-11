@@ -5,6 +5,9 @@ import { PayPalScriptProvider } from '@paypal/react-paypal-js';
 
 import { Header } from '../components/Header';
 import { DonationButton } from '../components/DonationButton';
+import { SidebarWithMenu } from '../components/SidebarWithMenu';
+
+import { SidebarProvider } from '../hooks/sidebar';
 
 import '../styles/global.scss';
 
@@ -23,9 +26,12 @@ function MyApp({
     return (
         <SessionProvider session={pageProps.session}>
             <PayPalScriptProvider options={initialPayPalOptions}>
-                <Header/>
-                <Component {...pageProps} />
-                <DonationButton/>
+                <SidebarProvider>
+                    <Header/>
+                    <SidebarWithMenu />
+                    <Component {...pageProps} />
+                    <DonationButton/>
+                </SidebarProvider>
             </PayPalScriptProvider>
         </SessionProvider>
     );
