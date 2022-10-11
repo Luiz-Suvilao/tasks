@@ -1,10 +1,13 @@
 import Link from 'next/link';
 
 import { SignInButton } from '../SignInButton';
+import { useUser } from '../../hooks/user';
 
 import styles from './header.module.scss';
 
 export function Header() {
+    const { logged } = useUser();
+
     return (
         <header className={styles.headerContainer}>
             <div className={styles.headerContent}>
@@ -22,13 +25,21 @@ export function Header() {
                     </Link>
                 </nav>
 
-                <SignInButton
-                    provider="google"
-                />
+                {logged ? (
+                    <SignInButton
+                        provider="google"
+                    />
+                ) : (
+                    <>
+                        <SignInButton
+                            provider="google"
+                        />
 
-                <SignInButton
-                    provider="github"
-                />
+                        <SignInButton
+                            provider="github"
+                        />
+                    </>
+                )}
             </div>
         </header>
     );

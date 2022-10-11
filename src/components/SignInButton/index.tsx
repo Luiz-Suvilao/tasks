@@ -4,6 +4,8 @@ import { signIn, signOut, useSession } from 'next-auth/react'
 import { FaGithub, FaGoogle } from 'react-icons/fa';
 import { FiX } from 'react-icons/fi';
 
+import { useUser } from '../../hooks/user';
+
 import styles from './sigInButton.module.scss';
 
 interface ISignButtonProps {
@@ -14,12 +16,16 @@ export function SignInButton({
     provider
 }: ISignButtonProps) {
     const { data: session } = useSession();
+    const { toggleLogged } = useUser();
 
     return session ? (
         <button
             type="button"
             className={styles.signInButton}
-            onClick={() => signOut()}
+            onClick={async () => {
+                await signOut();
+                await toggleLogged();
+            }}
         >
             <div>
                 <Image
@@ -41,7 +47,10 @@ export function SignInButton({
         <button
             type="button"
             className={styles.signInButton}
-            onClick={() => signIn(provider)}
+            onClick={async () => {
+                await signIn(provider);
+                toggleLogged();
+            }}
         >
             {provider === 'github' ? (<FaGithub color="#ffb800"/>) : (<FaGoogle color="#ffb800"/>)}
             Entrar com {provider === 'github' ? 'GitHub' : 'Google'}

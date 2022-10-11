@@ -1,13 +1,15 @@
 import Link from 'next/link';
 
 import { SignInButton } from '../SignInButton';
-import { useSidebar } from '../../hooks/sidebar';
 
-import styles from './sidebar.module.scss';
+import { useSidebar } from '../../hooks/sidebar';
+import { useUser } from '../../hooks/user'
+
+import styles from './sidebar.module.scss';;
 
 export function SidebarWithMenu() {
     const { toggleSidebar, open } = useSidebar();
-
+    const { logged } = useUser();
     return (
         <aside className={styles.aside}>
             <div className={styles.container}>
@@ -18,14 +20,21 @@ export function SidebarWithMenu() {
                         <span className={`${styles.line} ${styles.line2}`}></span>
                         <span className={`${styles.line} ${styles.line3}`}></span>
                     </div>
+                    {logged ? (
+                        <SignInButton
+                            provider="google"
+                        />
+                    ) : (
+                        <>
+                            <SignInButton
+                                provider="google"
+                            />
 
-                    <SignInButton
-                        provider="google"
-                    />
-
-                    <SignInButton
-                        provider="github"
-                    />
+                            <SignInButton
+                                provider="github"
+                            />
+                        </>
+                    )}
                 </div>
 
 
