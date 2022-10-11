@@ -21,14 +21,15 @@ export default async function (req, res) {
             <a href="https://www.instagram.com/luiz_filipe.dev/">Instagram</a> ou <a href="https://www.linkedin.com/in/luiz-filipe-490a02182/">Linkedin</a>        
         </div>
     `;
-    const mailData = {
-        from: 'luizfilipe.tech@gmail.com',
-        to: req.body.email,
-        subject: `Olá ${req.body.userName}!`,
-        html
-    };
 
     return await new Promise((resolve, reject) => {
+        const mailData = {
+            from: 'luizfilipe.tech@gmail.com',
+            to: req.body.email || 'suvilao@gmail.com',
+            subject: `Olá ${req.body.userName}!`,
+            html
+        };
+
         transporter.sendMail(mailData, (err, info) => {
             if (err) {
                 console.error(err);
