@@ -3,6 +3,7 @@
   bottom: 70px;
   right: 50px;
   z-index: 99;
+
   button {
     background-color: #ffb800;
     width: 100px;
@@ -17,5 +18,13 @@
     &:hover {
       transform: scale(1.2);
     }
+  }
+}
+
+@media (max-width: 700px) {
+  .donateContainer {
+    position: sticky;
+    bottom: 0;
+    right: 0;
   }
 }
