@@ -2,6 +2,13 @@ require('dotenv').config();
 const nodemailer = require('nodemailer');
 
 export default async function (req, res) {
+    const {
+        isUpdate,
+        task,
+        userName,
+        email
+    } = await req.body;
+
     const transporter = nodemailer.createTransport({
         host: 'smtp.gmail.com',
         port: 465,
@@ -14,8 +21,8 @@ export default async function (req, res) {
 
     const html = `
         <div>
-            <h3>${req.body.isUpdate ? 'Atualização' : 'Criação'} de tarefa!</h3>
-            <p>A tarefa <strong>${req.body.task}</strong> foi ${req.body.isUpdate ? 'atualizada' : 'criada'} com sucesso!</p>
+            <h3>${isUpdate ? 'Atualização' : 'Criação'} de tarefa!</h3>
+            <p>A tarefa <strong>${task}</strong> foi ${isUpdate ? 'atualizada' : 'criada'} com sucesso!</p>
 
             <h4>Fale comigo através das seguintes redes</h4>
             <a href="https://www.instagram.com/luiz_filipe.dev/">Instagram</a> ou <a href="https://www.linkedin.com/in/luiz-filipe-490a02182/">Linkedin</a>        
@@ -23,10 +30,11 @@ export default async function (req, res) {
     `;
 
     return await new Promise((resolve, reject) => {
+        console.log(req.body);
         const mailData = {
             from: 'luizfilipe.tech@gmail.com',
-            to: req.body.email || 'suvilao@gmail.com',
-            subject: `Olá ${req.body.userName}!`,
+            to: email,
+            subject: `Olá, ${userName}!`,
             html
         };
 
@@ -36,8 +44,6 @@ export default async function (req, res) {
                 reject(err);
                 return;
             }
-
-            console.log(info);
             resolve(info);
         });
     }).then(() => {

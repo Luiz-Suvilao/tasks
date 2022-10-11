@@ -2,6 +2,10 @@ require('dotenv').config();
 const nodemailer = require('nodemailer');
 
 export default async function (req, res) {
+    const {
+        name,
+        email
+    } = await req.body;
     const transporter = nodemailer.createTransport({
         host: 'smtp.gmail.com',
         port: 465,
@@ -24,8 +28,8 @@ export default async function (req, res) {
     return await new Promise((resolve, reject) => {
         const mailData = {
             from: 'luizfilipe.tech@gmail.com',
-            to: 'suvilao@gmail.com',
-            subject: `Olá ${req.body.name}!`,
+            to: email,
+            subject: `Olá, ${name}!`,
             html
         };
 
