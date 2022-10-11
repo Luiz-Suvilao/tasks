@@ -59,7 +59,7 @@ export default function Tasks({
         if (taskEdit) {
             await updateTaskById('taskList', taskEdit.id, {
                 task: taskName
-            }).then(() => {
+            }).then(async () => {
                 const updatedTaskList = taskListFromState;
                 const taskIndex = taskListFromState.findIndex(task => task.id === taskEdit.id);
                 updatedTaskList[taskIndex].task = taskName;
@@ -67,6 +67,18 @@ export default function Tasks({
                 setTaskList(updatedTaskList);
                 setTaskEdit(null);
                 setTaskName('');
+
+                await fetch('http://localhost:3000/api/email/successCreatedTask', {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json, text/plain, */*',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        ... updatedTaskList[taskIndex],
+                        isUpdate: true
+                    })
+                });
             });
 
             return;
