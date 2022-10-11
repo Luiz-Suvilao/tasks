@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Head from 'next/head';
 import { GetStaticProps } from 'next';
 import Image from 'next/image';
@@ -28,6 +28,11 @@ export default function Home({
 }: HomeProps) {
     const { open: sidebarOpen } = useSidebar();
     const [donors, setDonors] = useState<Donor[]>(JSON.parse(data));
+    const { open } = useSidebar();
+
+    useEffect(() => {
+        document.body.className = open ? 'locked' : 'unlocked';
+    });
 
     return (
         <>

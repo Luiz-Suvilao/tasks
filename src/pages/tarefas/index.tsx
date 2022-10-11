@@ -1,4 +1,4 @@
-import { FormEvent, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import { GetServerSideProps, GetServerSidePropsContext } from 'next';
@@ -15,6 +15,8 @@ import {
 
 import { format, formatDistance } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
+
+import { useSidebar } from '../../hooks/sidebar';
 
 import {
     add,
@@ -48,6 +50,11 @@ export default function Tasks({
     const [taskListFromState, setTaskList] = useState<Task[]>(JSON.parse(taskList));
     const [inputError, setInputErro] = useState(false);
     const [taskEdit, setTaskEdit] = useState<Task|null>(null);
+    const { open } = useSidebar();
+
+    useEffect(() => {
+        document.body.className = open ? 'locked' : 'unlocked';
+    });
 
     const handleAddTask = async (event:FormEvent) => {
         event.preventDefault();

@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Head from 'next/head';
 import Image from 'next/image';
 import { getSession } from 'next-auth/react';
 import { GetServerSideProps, GetServerSidePropsContext } from 'next';
 import { PayPalButtons } from '@paypal/react-paypal-js';
 
+import { useSidebar } from '../../hooks/sidebar';
 import { addWithCustomDocument } from '../../services/firebaseConnection';
 
 import Session from '../tarefas/interfaces/ISession';
@@ -12,7 +13,6 @@ import Session from '../tarefas/interfaces/ISession';
 import rocketImage from '../../../public/images/rocket.svg';
 
 import styles from './styles.module.scss';
-import { session } from "next-auth/core/routes";
 
 interface DonationProps {
     session: Session;
@@ -30,6 +30,11 @@ export default function Donation({
             userName: name
         }).then(() => setDonationMade(true));
     };
+    const { open } = useSidebar();
+
+    useEffect(() => {
+        document.body.className = open ? 'locked' : 'unlocked';
+    });
 
     return (
         <>

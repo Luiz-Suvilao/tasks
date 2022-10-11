@@ -1,8 +1,10 @@
+import { useEffect } from 'react';
 import { GetServerSideProps, GetServerSidePropsContext } from 'next';
 import Head from 'next/head';
 import { getSession } from 'next-auth/react';
 import { format } from 'date-fns';
 
+import { useSidebar } from '../../hooks/sidebar';
 import { getById } from '../../services/firebaseConnection';
 
 import { FiCalendar } from 'react-icons/fi';
@@ -12,6 +14,7 @@ import Task from './interfaces/ITask';
 
 import styles from './styles/task-detail.module.scss';
 
+
 interface TaskDetailProps {
     selectedTask: string
 }
@@ -20,6 +23,11 @@ export default function TaskDetail({
     selectedTask
 }: TaskDetailProps) {
     const task = JSON.parse(selectedTask) as Task;
+    const { open } = useSidebar();
+
+    useEffect(() => {
+        document.body.className = open ? 'locked' : 'unlocked';
+    });
 
     return (
         <>
