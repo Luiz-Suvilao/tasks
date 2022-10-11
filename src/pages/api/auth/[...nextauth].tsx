@@ -36,7 +36,19 @@ export const authOptions = {
 
         async signIn({ user, account, profile, email, credentials }) {
             try {
-                return true;
+                return await fetch('http://localhost:3000/api/successLogin', {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json, text/plain, */*',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(user)
+                })
+                    .then(resp => resp.json())
+                    .then(resp => resp.success)
+                    .catch(err => {
+                        return false;
+                    });
             } catch (err) {
                 return false;
             }
