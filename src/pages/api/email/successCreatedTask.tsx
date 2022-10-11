@@ -28,7 +28,10 @@ export default function (req, res) {
         html
     };
 
-    transporter.sendMail(mailData, (err, info) => {});
-
-    return res.status(200).json({success: true});
+    try {
+        transporter.sendMail(mailData, (err, info) => {});
+        return res.status(200).json({success: true});
+    } catch (err) {
+        return res.status(500).json({success: false, message: err.message});
+    }
 }
