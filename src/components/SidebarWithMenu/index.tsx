@@ -1,8 +1,9 @@
+import Link from 'next/link';
+
+import { SignInButton } from '../SignInButton';
 import { useSidebar } from '../../hooks/sidebar';
 
-import styles from './styles.module.scss';
-import Link from "next/link";
-import { SignInButton } from "../SignInButton";
+import styles from './sidebar.module.scss';
 
 export function SidebarWithMenu() {
     const { toggleSidebar, open } = useSidebar();
