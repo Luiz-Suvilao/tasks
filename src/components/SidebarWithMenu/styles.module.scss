@@ -1,0 +1,135 @@
+.aside {
+  display: none;
+  background-color: #141a29;
+}
+
+@media (max-width: 700px) {
+  .aside {
+    display: block;
+    box-shadow: #141a29;
+  }
+
+  .container {
+    justify-content: space-between;
+    align-items: center;
+    display: block;
+    position: relative;
+    height: 6rem;
+
+    .checkbox {
+      position: absolute;
+      display: block;
+      height: 32px;
+      width: 32px;
+      top: 20px;
+      left: 20px;
+      z-index: 5;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    .hamburgerWrapper {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 100%;
+    }
+
+    .hamburgerLines {
+      margin-left: 2rem;
+      height: 26px;
+      width: 32px;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+
+      .line {
+        display: block;
+        height: 4px;
+        width: 100%;
+        border-radius: 10px;
+        background: #fff;
+      }
+
+      .line1 {
+        transform-origin: 0 0;
+        transition: transform 0.4s ease-in-out;
+      }
+
+      .line2 {
+        transition: transform 0.2s ease-in-out;
+      }
+
+      .line3 {
+        transform-origin: 0 100%;
+        transition: transform 0.4s ease-in-out;
+      }
+    }
+  }
+
+  .menuItems {
+    background-color: #141a29;
+    height: calc(100vh + 6rem);
+    transform: translate(-100%);
+    flex-direction: column;
+    transition: transform 0.5s ease-in-out;
+
+    .wrapperContent {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 80%;
+
+      h1 {
+        cursor: pointer;
+        color: #fff;
+        font-size: 2rem;
+      }
+
+      .wrapperLinks {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 2rem;
+        a {
+          display: inline-block;
+          position: relative;
+          margin-top: 1rem;
+          font-size: 1.5rem;
+          color: #fff;
+          text-decoration: underline;
+
+          &:hover {
+            font-weight: bolder;
+          }
+        }
+      }
+
+      .loginButton {
+        margin-top: 2rem;
+      }
+    }
+
+    input[type="checkbox"]:checked ~ & {
+      transform: translateX(0);
+    }
+  }
+
+  .container input[type="checkbox"]:checked ~ .menuItems {
+
+  }
+
+  .container input[type="checkbox"]:checked ~ .hamburgerLines .line1 {
+    transform: rotate(45deg);
+  }
+
+  .container input[type="checkbox"]:checked ~ .hamburgerLines .line2 {
+    transform: scaleY(0);
+  }
+
+  .container input[type="checkbox"]:checked ~ .hamburgerLines .line3 {
+    transform: rotate(-45deg);
+  }
+}
