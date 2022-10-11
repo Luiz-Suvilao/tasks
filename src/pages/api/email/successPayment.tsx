@@ -6,24 +6,13 @@ const nodemailer = require('nodemailer');
 export default async function (req, res) {
     const transporter = nodemailer.createTransport({
         host: 'smtp.gmail.com',
-        port: 465,
+        service: 'gmail',
+        port: 587,
         auth: {
             user: process.env.EMAIL,
             pass: process.env.PASSWORD,
         },
         secure: true,
-    });
-
-    await new Promise((resolve, reject) => {
-        transporter.verify(function (error, success) {
-            if (error) {
-                console.log(error);
-                reject(error);
-            } else {
-                console.log("Server is ready to take our messages");
-                resolve(success);
-            }
-        });
     });
 
     const html = `
@@ -47,17 +36,18 @@ export default async function (req, res) {
         html
     };
 
-    await new Promise((resolve, reject) => {
+    return await new Promise((resolve, reject) => {
         transporter.sendMail(mailData, (err, info) => {
             if (err) {
                 console.error(err);
                 reject(err);
-            } else {
-                console.log(info);
-                resolve(info);
+                return;
             }
-        });
-    });
 
-    res.status(200).json({ success: true });
+            console.log(info);
+            resolve(info);
+        });
+    }).then(() => {
+        res.status(200).json({ success: true });
+    });
 }

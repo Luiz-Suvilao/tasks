@@ -13,18 +13,6 @@ export default async function (req, res) {
         secure: true,
     });
 
-    await new Promise((resolve, reject) => {
-        transporter.verify(function (error, success) {
-            if (error) {
-                console.log(error);
-                reject(error);
-            } else {
-                console.log("Server is ready to take our messages");
-                resolve(success);
-            }
-        });
-    });
-
     const html = `
         <div>
             <h3>${req.body.isUpdate ? 'Atualização' : 'Criação'} de tarefa!</h3>
@@ -41,17 +29,18 @@ export default async function (req, res) {
         html
     };
 
-    await new Promise((resolve, reject) => {
+    return await new Promise((resolve, reject) => {
         transporter.sendMail(mailData, (err, info) => {
             if (err) {
                 console.error(err);
                 reject(err);
-            } else {
-                console.log(info);
-                resolve(info);
+                return;
             }
-        });
-    });
 
-    res.status(200).json({ success: true });
+            console.log(info);
+            resolve(info);
+        });
+    }).then(() => {
+        res.status(200).json({ success: true });
+    });
 }
