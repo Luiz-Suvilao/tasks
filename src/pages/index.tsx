@@ -41,7 +41,7 @@ export default function Home({
             </Head>
 
             <main className={styles.contentContainer}>
-                {!sidebarOpen && (
+                {sidebarOpen === false && (
                     <Image
                         src={notebookImage}
                         alt='Ícone de um notebook com o site aberto.'
@@ -57,7 +57,7 @@ export default function Home({
 
                 {donors.length !== 0 && (<h1 className={styles.donorsTitle}>Nossos apoiadores</h1>)}
 
-                {!sidebarOpen && (
+                {sidebarOpen === false && (
                     <div className={styles.donors}>
                         {donors.map(donor => (
                             <Image

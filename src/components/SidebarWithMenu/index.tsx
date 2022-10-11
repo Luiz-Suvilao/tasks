@@ -11,7 +11,7 @@ export function SidebarWithMenu() {
     return (
         <aside className={styles.aside}>
             <div className={styles.container}>
-                <input className={styles.checkbox} type="checkbox" defaultChecked={open} onClick={() => toggleSidebar()}/>
+                <input className={styles.checkbox} type="checkbox" checked={open} readOnly onClick={() => toggleSidebar()}/>
                 <div className={styles.hamburgerWrapper}>
                     <div className={styles.hamburgerLines}>
                         <span className={`${styles.line} ${styles.line1}`}></span>
