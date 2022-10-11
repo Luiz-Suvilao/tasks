@@ -1,7 +1,7 @@
-export default function (req, res) {
-    require('dotenv').config();
-    const nodemailer = require('nodemailer');
+require('dotenv').config();
+const nodemailer = require('nodemailer');
 
+export default async function (req, res) {
     const transporter = nodemailer.createTransport({
         host: 'smtp.gmail.com',
         port: 465,
@@ -27,7 +27,18 @@ export default function (req, res) {
         html
     };
 
-    transporter.sendMail(mailData, (err, info) => {});
+    return await new Promise((resolve, reject) => {
+        transporter.sendMail(mailData, (err, info) => {
+            if (err) {
+                console.error(err);
+                reject(err);
+                return;
+            }
 
-    return res.status(200).json({success: true});
+            console.log(info);
+            resolve(info);
+        });
+    }).then(() => {
+        res.status(200).json({ success: true });
+    });
 }
