@@ -73,6 +73,7 @@ export default function Donation({
 
                 {open === false && (
                     <PayPalButtons
+                        className={styles.buttons}
                         createOrder={(data, actions) => {
                             return actions.order.create({
                                 purchase_units: [{
