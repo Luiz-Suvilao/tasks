@@ -56,7 +56,19 @@ export function SidebarWithMenu() {
                                 <a onClick={() => {
                                     toggleSidebar();
                                     !logged && toggleModal();
-                                }}>Minhas tarefas</a>
+                                }}
+                                >
+                                    Minhas tarefas
+                                </a>
+                            </Link>
+
+                            <Link href="/sugestao">
+                                <a onClick={() => {
+                                    toggleSidebar();
+                                    !logged && toggleModal();
+                                }}>
+                                    Enviar sugestão
+                                </a>
                             </Link>
                         </div>
                     </div>
