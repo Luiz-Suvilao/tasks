@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import Head from 'next/head';
 import { GetServerSideProps, GetServerSidePropsContext } from 'next';
 import { getSession } from 'next-auth/react';
 import { AiOutlineLoading3Quarters } from 'react-icons/ai';
@@ -8,7 +9,6 @@ import { add } from '../../services/firebaseConnection';
 import Session from '../tarefas/interfaces/ISession';
 
 import styles from './styles.module.scss';
-import Head from "next/head";
 
 interface SugestaoProps {
     user: {
