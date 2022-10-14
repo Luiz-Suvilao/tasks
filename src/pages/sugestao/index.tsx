@@ -38,7 +38,7 @@ export default function Sugestao({
             suggestion
         });
 
-        await fetch('http://localhost:3000/api/email/sucessOnSendSuggestion', {
+        await fetch('https://digital-tarefas.vercel.app/api/email/sucessOnSendSuggestion', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json, text/plain, */*',
