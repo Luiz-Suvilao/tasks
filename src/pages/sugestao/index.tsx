@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import Head from 'next/head';
 import { GetServerSideProps, GetServerSidePropsContext } from 'next';
 import { getSession } from 'next-auth/react';
 import { AiOutlineLoading3Quarters } from 'react-icons/ai';
@@ -55,10 +56,15 @@ export default function Sugestao({
     }
 
     return (
-        <div className={styles.container}>
-            <h1>Fale conosco</h1>
+        <>
+            <Head>
+                <title>Tarefas | Sugestão</title>
+            </Head>
 
-            <form>
+            <div className={styles.container}>
+                <h1>Fale conosco</h1>
+
+                <form>
                 <textarea
                     value={suggestion}
                     onFocus={() => setError(false)}
@@ -66,25 +72,26 @@ export default function Sugestao({
                     placeholder="Digite sua mensagem..."
                 />
 
-                {
-                    error
-                    ? (<p>Por favor, verifique o campo e tente novamente.</p>)
-                    : null
-                }
-
-                <button
-                    disabled={sending}
-                    type='button'
-                    onClick={() => sendSuggestion()}
-                >
                     {
-                        sending
-                        ? (<AiOutlineLoading3Quarters className={styles.rotate} size={25} />)
-                        : 'Enviar'
+                        error
+                            ? (<p>Por favor, verifique o campo e tente novamente.</p>)
+                            : null
                     }
-                </button>
-            </form>
-        </div>
+
+                    <button
+                        disabled={sending}
+                        type='button'
+                        onClick={() => sendSuggestion()}
+                    >
+                        {
+                            sending
+                                ? (<AiOutlineLoading3Quarters className={styles.rotate} size={25} />)
+                                : 'Enviar'
+                        }
+                    </button>
+                </form>
+            </div>
+        </>
     );
 }
 
