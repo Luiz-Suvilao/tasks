@@ -45,6 +45,30 @@
       background-color: #ffb800;
       border-radius: 6px;
       text-transform: uppercase;
+      transition: background-color 0.8s ease-in;
+
+      &:hover {
+        background-color: #019950;
+        color: #fff;
+      }
+
+      &:disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+      }
+
+      .rotate {
+        animation: rotation 2s infinite linear;
+      }
     }
+  }
+}
+
+@keyframes rotation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(359deg);
   }
 }

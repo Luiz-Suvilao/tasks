@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { GetServerSideProps, GetServerSidePropsContext } from 'next';
 import { getSession } from 'next-auth/react';
+import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 
-import { addWithCustomDocument } from '../../services/firebaseConnection';
+import { add } from '../../services/firebaseConnection';
 
 import Session from '../tarefas/interfaces/ISession';
 
@@ -21,6 +22,7 @@ export default function Sugestao({
 }: SugestaoProps) {
     const [suggestion, setSuggestion] = useState('');
     const [error, setError] = useState(false);
+    const [sending, setSending] = useState(false);
 
     const sendSuggestion = async () => {
         if (!suggestion) {
@@ -28,12 +30,13 @@ export default function Sugestao({
             return;
         }
 
-        await addWithCustomDocument('suggestions', name, {
+        await setSending(true);
+        await add('suggestions', {
             userName: name,
             userId: id,
             userEmail: email,
             suggestion
-        });
+        }).then(() => setSending(false));
     }
 
     return (
@@ -48,9 +51,23 @@ export default function Sugestao({
                     placeholder="Digite sua mensagem..."
                 />
 
-                {error ? (<p>Por favor, verifique o campo e tente novamente.</p>) : null}
+                {
+                    error
+                    ? (<p>Por favor, verifique o campo e tente novamente.</p>)
+                    : null
+                }
 
-                <button type='button' onClick={() => sendSuggestion()}>Enviar</button>
+                <button
+                    disabled={sending}
+                    type='button'
+                    onClick={() => sendSuggestion()}
+                >
+                    {
+                        sending
+                        ? (<AiOutlineLoading3Quarters className={styles.rotate} size={25} />)
+                        : 'Enviar'
+                    }
+                </button>
             </form>
         </div>
     );
