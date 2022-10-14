@@ -36,7 +36,22 @@ export default function Sugestao({
             userId: id,
             userEmail: email,
             suggestion
-        }).then(() => setSending(false));
+        });
+
+        await fetch('http://localhost:3000/api/email/sucessOnSendSuggestion', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                userName: name,
+                email
+            })
+        }).then(() => {
+            setSending(false);
+            setSuggestion('');
+        });
     }
 
     return (
