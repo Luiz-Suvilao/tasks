@@ -32,7 +32,7 @@ export default async function (req, res) {
 
     return await new Promise((resolve, reject) => {
         const mailData = {
-            from: 'luizfilipe.tech@gmail.com',
+            from:  process.env.EMAIL,
             to: String(email),
             subject: `Olá, ${userName}!`,
             html

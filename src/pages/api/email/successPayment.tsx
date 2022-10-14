@@ -35,7 +35,7 @@ export default async function (req, res) {
 
     return await new Promise((resolve, reject) => {
         const mailData = {
-            from: 'luizfilipe.tech@gmail.com',
+            from:  process.env.EMAIL,
             to: email,
             subject: `Olá, ${name}, estamos confirmando seu pagamento de R$ 1,00`,
             html
