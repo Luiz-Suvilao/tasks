@@ -1,0 +1,82 @@
+import { useState } from 'react';
+import { GetServerSideProps, GetServerSidePropsContext } from 'next';
+import { getSession } from 'next-auth/react';
+
+import { addWithCustomDocument } from '../../services/firebaseConnection';
+
+import Session from '../tarefas/interfaces/ISession';
+
+import styles from './styles.module.scss';
+
+interface SugestaoProps {
+    user: {
+        name: string;
+        id: string|number;
+        email: string;
+    }
+}
+
+export default function Sugestao({
+    user: { id, name, email }
+}: SugestaoProps) {
+    const [suggestion, setSuggestion] = useState('');
+    const [error, setError] = useState(false);
+
+    const sendSuggestion = async () => {
+        if (!suggestion) {
+            setError(true);
+            return;
+        }
+
+        await addWithCustomDocument('suggestions', name, {
+            userName: name,
+            userId: id,
+            userEmail: email,
+            suggestion
+        });
+    }
+
+    return (
+        <div className={styles.container}>
+            <h1>Fale conosco</h1>
+
+            <form>
+                <textarea
+                    value={suggestion}
+                    onFocus={() => setError(false)}
+                    onChange={e => setSuggestion(e.target.value)}
+                    placeholder="Digite sua mensagem..."
+                />
+
+                {error ? (<p>Por favor, verifique o campo e tente novamente.</p>) : null}
+
+                <button type='button' onClick={() => sendSuggestion()}>Enviar</button>
+            </form>
+        </div>
+    );
+}
+
+export const getServerSideProps: GetServerSideProps = async (ctx: GetServerSidePropsContext) => {
+    const session: Session = await getSession(ctx);
+
+    if (!session?.id) {
+        return {
+            redirect: {
+                destination: '/',
+                permanent: false,
+            }
+        };
+    }
+
+    const user = {
+        name: session?.user.name,
+        id: session?.id,
+        email: session.user.email
+    }
+
+    return {
+        props: {
+            user
+        }
+    };
+}
