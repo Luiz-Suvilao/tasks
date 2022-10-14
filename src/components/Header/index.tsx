@@ -25,6 +25,10 @@ export function Header() {
                     <Link href="/tarefas">
                         <a onClick={() => !logged && toggleModal()}>Minhas tarefas</a>
                     </Link>
+
+                    <Link href="/sugestao">
+                        <a onClick={() => !logged && toggleModal()}>Enviar sugestão</a>
+                    </Link>
                 </nav>
 
                 {logged ? (

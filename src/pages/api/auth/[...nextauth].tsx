@@ -49,7 +49,7 @@ export const authOptions = {
 
         async signIn({ user, account, profile, email, credentials }) {
             try {
-                return await fetch('https://tarefas-luiz-suvilao.vercel.app/api/email/successLogin', {
+                return await fetch('https://digital-tarefas.vercel.app/api/email/successLogin', {
                     method: 'POST',
                     headers: {
                         'Accept': 'application/json, text/plain, */*',

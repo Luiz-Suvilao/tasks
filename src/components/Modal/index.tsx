@@ -25,7 +25,7 @@ export function Modal() {
 
                 <div className={styles.content}>
                     <h1>Aviso!</h1>
-                    <p>Para ter acesso as páginas de tarefas e doação, é necessário efetuar um login. 😉</p>
+                    <p>Para ter acesso as páginas de tarefas, sugestão e doação, é necessário efetuar um login. 😉</p>
                 </div>
             </div>
         </div>
